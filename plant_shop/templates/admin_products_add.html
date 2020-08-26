@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Green Sunshine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+        }
+
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0 !important;
+            width: 60%;
+            min-height: 100%;
+            background-color: #fbfcfd;
+            padding: 0;
+            box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            font-size: small;
+        }
+
+        li {
+            float: right;
+            font-size: small;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav li a, a:visited {
+            color: black;
+        }
+
+        .nav li a:hover {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: small;
+        }
+
+        .shop-title {
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 2% !important;
+            color: #145a32;
+            letter-spacing: 40px;
+        }
+
+        .shop-title a, a:visited, a:hover {
+            color: #239b56;
+            text-decoration: none;
+            font-size: x-large;
+        }
+
+        .add-product-form-request {
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            box-shadow: 2px 2px 0 0 lightgray;
+            padding: 30px;
+            width: 50%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        input {
+            border: none;
+            border-bottom: 1px solid #145a32;
+        }
+
+        ::placeholder {
+            text-align: center;
+        }
+
+        input:focus {
+            border: none;
+            border-bottom: 1px solid #239b56;
+        }
+
+        input:invalid {
+            box-shadow: none;
+        }
+
+        #save, .back-to-products {
+            border: none;
+            box-shadow: none;
+            border-radius: 3px;
+            background: transparent;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-left: 110px;
+            padding-right: 110px;
+        }
+
+        #save:hover {
+            background: palegreen;
+        }
+
+        .back-to-products:hover {
+            background: crimson;
+            color: white;
+        }
+
+        .back-to-products, .back-to-products:hover, .back-to-products:visited {
+            text-decoration: none;
+            font-size: small;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 60%;
+            background-color: forestgreen;
+            color: white;
+            text-align: center;
+            font-size: x-small;
+        }
+
+        input:not([type="submit"]) {
+            width: 410px;
+            display: inline-block;
+        }
+
+        label {
+            font-size: small;
+            float: left;
+        }
+
+    </style>
+</head>
+<body>
+<div class="nav">
+    <ul>
+        <li class="logout"><a href="/logout">Logout</a></li>
+        <li><a href="/">Hello, {{ profile.first_name }}!</a></li>
+    </ul>
+</div>
+
+<br>
+
+<div class="shop-title">
+    <a href="/"><h1>GREENSUNSHINE</h1></a>
+</div>
+
+<div class="add-product-form">
+    <div class="add-product-form-request">
+        <form autocomplete="off" action="{% url "admin-products-add" %}" method="post">
+            {% csrf_token %}
+            <label><strong>Add Product</strong></label><br><br>
+            <input type="text" id="variant_name" name="variant_name" placeholder="Name"><br><br>
+            <input type="text" id="variant_sku" name="variant_sku" placeholder="SKU"><br><br>
+            <input type="text" id="variant_desc" name="variant_desc" placeholder="Description"><br><br>
+            <input type="number" id="variant_stock" name="variant_stock" placeholder="Stocks" min="0"><br><br>
+            <input type="number" id="variant_price" name="variant_price" placeholder="Price" min="0"><br><br>
+            <input type="text" id="variant_image" name="variant_image" placeholder="Image URL"><br><br>
+            <input type="submit" id="save" value="Save"><br>
+        </form>
+        <br>
+        <a href="/admin/products" class="back-to-products">Return to Products</a>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="footer">
+    <h3>Powered by BrightWin</h3>
+</div>
+</body>
+</html>

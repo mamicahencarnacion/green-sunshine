@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Green Sunshine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+        }
+
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0 !important;
+            width: 60%;
+            min-height: 100%;
+            background-color: #fbfcfd;
+            padding: 0;
+            box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            font-size: small;
+        }
+
+        li {
+            float: right;
+            font-size: small;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav li a, a:visited {
+            color: black;
+        }
+
+        .nav li a:hover {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: small;
+        }
+
+        .shop-title {
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 2% !important;
+            color: #145a32;
+            letter-spacing: 40px;
+        }
+
+        .shop-title a, a:visited, a:hover {
+            color: #239b56;
+            text-decoration: none;
+            font-size: x-large;
+        }
+
+        .login-form-request #password, #uname {
+            border: none;
+            border-bottom: 1px solid #145a32;
+        }
+
+        ::placeholder {
+            text-align: center;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 60%;
+            background-color: forestgreen;
+            color: white;
+            text-align: center;
+            font-size: x-small;
+        }
+
+        .logout a {
+            color: crimson !important;
+        }
+
+        .product {
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product_details_main {
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            border: none;
+            box-shadow: none;
+            border-radius: 3px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-left: 110px;
+            padding-right: 110px;
+            background: forestgreen;
+            color: white;
+        }
+
+        img {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="nav">
+    {% if username %}
+        <ul>
+            <li class="logout"><a href="/logout">Logout</a></li>
+            <li><a href="{% url 'user-orders' %}">Orders</a></li>
+            <li><a href="/profile">Hello, {{ username }}!</a></li>
+        </ul>
+    {% else %}
+        <ul>
+            <li><a href="/login">Login/Register</a></li>
+        </ul>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="shop-title">
+    <a href="/"><h1>GREENSUNSHINE</h1></a>
+</div>
+
+<br>
+
+<div class="product">
+    <h3>Product Details</h3>
+    <div class="product_details_main">
+        <img src="{{ product.variant_image }}">
+        <h3><span>{{ product.variant_name }}</span></h3>
+    </div>
+    <p>{{ product.variant_description }}</p>
+    <p><strong>In Stock ({{ product.variant_sku }}): </strong>{{ product.variant_stock }}</p>
+    <p><strong>Php {{ product.variant_price|floatformat:2 }}</strong></p>
+    <form action="/order" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Go to Order Form">
+    </form>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="footer">
+    <h3>Powered by BrightWin</h3>
+</div>
+</body>
+</html>

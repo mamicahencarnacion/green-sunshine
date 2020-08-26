@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Green Sunshine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+        }
+
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0 !important;
+            width: 60%;
+            min-height: 100%;
+            background-color: #fbfcfd;
+            padding: 0;
+            box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            font-size: small;
+        }
+
+        li {
+            float: right;
+            font-size: small;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav li a, a:visited {
+            color: black;
+        }
+
+        .nav li a:hover {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: small;
+        }
+
+        .shop-title {
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 2% !important;
+            color: #145a32;
+            letter-spacing: 40px;
+        }
+
+        .shop-title a, a:visited, a:hover {
+            color: #239b56;
+            text-decoration: none;
+            font-size: x-large;
+        }
+
+        .login-form-request #password, #uname {
+            border: none;
+            border-bottom: 1px solid #145a32;
+        }
+
+        ::placeholder {
+            text-align: center;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 60%;
+            background-color: forestgreen;
+            color: white;
+            text-align: center;
+            font-size: x-small;
+        }
+
+        .logout a {
+            color: crimson !important;
+        }
+
+        .profile {
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        label {
+            display: block;
+            padding-left: 15px;
+            text-indent: -15px;
+        }
+
+        input {
+            width: 13px;
+            height: 13px;
+            padding: 0;
+            margin: 0;
+            margin-right: 5px;
+            vertical-align: bottom;
+            position: relative;
+            top: -1px;
+            *overflow: hidden;
+        }
+
+        .edit, .edit:hover, .edit:visited {
+            text-decoration: none;
+            color: forestgreen;
+            font-size: small;
+        }
+
+    </style>
+</head>
+<body>
+<div class="nav">
+    <ul>
+        <li class="logout"><a href="/logout">Logout</a></li>
+        <li><a href="{% url 'user-orders' %}">Orders</a></li>
+        <li><a href="/profile">Hello, {{ customer.first_name }}!</a></li>
+    </ul>
+</div>
+
+<br>
+
+<div class="shop-title">
+    <a href="/"><h1>GREENSUNSHINE</h1></a>
+</div>
+
+<br>
+
+<div class="profile">
+    <h3>User Details</h3>
+    <h5>Name:</h5> <span>{{ customer.first_name }} {{ customer.last_name }}</span>
+    <h5>Username:</h5> <span>{{ user.username }}</span>
+    <h5>Email:</h5> <span>{{ customer.email_address }}</span>
+    <h5>Contact Number:</h5> <span>+{{ customer.contact_num }}</span>
+    <h5>Password:</h5> <span>*************</span>
+
+    <hr>
+
+    <h3>Shipping Address</h3>
+    <a href="{% url "edit-shipping-address" customer.customer_id %}" class="edit">Edit</a>
+    <h5>Address Line</h5> <span>{{ customer_address.ship_address_line }}</span>
+    <h5>City</h5> <span>{{ customer_address.ship_city }}</span>
+    <h5>Region</h5> <span>{{ customer_address.ship_region }}</span>
+    <h5>Country</h5> <span>{{ customer_address.ship_country }}</span>
+    <h5>Zip Code</h5> <span>{{ customer_address.ship_zip_code }}</span>
+
+    <div id="billing-address">
+        <hr>
+        <h3>Billing Address</h3>
+        <a href="{% url "edit-billing-address" customer.customer_id %}" class="edit">Edit</a>
+        <h5>Address Line</h5> <span>{{ customer_address.bill_address_line }}</span>
+        <h5>City</h5> <span>{{ customer_address.bill_city }}</span>
+        <h5>Region</h5> <span>{{ customer_address.bill_region }}</span>
+        <h5>Country</h5> <span>{{ customer_address.bill_country }}</span>
+        <h5>Zip Code</h5> <span>{{ customer_address.bill_zip_code }}</span>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="footer">
+    <h3>Powered by BrightWin</h3>
+</div>
+</body>
+</html>

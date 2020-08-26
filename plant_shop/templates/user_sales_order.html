@@ -1,0 +1,186 @@
+{% load mathfilters %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Green Sunshine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+        }
+
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0 !important;
+            width: 60%;
+            min-height: 100%;
+            background-color: #fbfcfd;
+            padding: 0;
+            box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            font-size: small;
+        }
+
+        li {
+            float: right;
+            font-size: small;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav li a, a:visited {
+            color: black !important;
+        }
+
+        .nav li a:hover {
+            color: rgba(0, 0, 0, 0.7) !important;
+            font-size: small;
+        }
+
+        .shop-title {
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 2% !important;
+            color: #145a32;
+            letter-spacing: 40px;
+        }
+
+        .shop-title a, a:visited, a:hover {
+            color: #239b56 !important;
+            text-decoration: none;
+            font-size: x-large;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 60%;
+            background-color: forestgreen;
+            color: white;
+            text-align: center;
+            font-size: x-small;
+        }
+
+        .logout a {
+            color: crimson !important;
+        }
+
+        .products {
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .products table {
+            width: 100%;
+            text-align: center;
+        }
+
+        .view_order, .view_order:hover, .view_order:visited {
+            color: #239b56;
+            font-size: medium;
+            text-decoration: none;
+        }
+
+        .nav-0, .nav-0:hover, .nav:visited {
+            color: black !important;
+        }
+    </style>
+</head>
+<body>
+<div class="nav">
+    <ul>
+        <li class="logout"><a href="/logout">Logout</a></li>
+        <li><a href="{% url 'user-orders' %}" class="nav-0">Orders</a></li>
+        <li><a href="/" class="nav-0">Hello, {{ profile.first_name }}!</a></li>
+    </ul>
+</div>
+
+<br>
+
+<div class="shop-title">
+    <a href="/"><h1>GREENSUNSHINE</h1></a>
+</div>
+
+<br>
+
+<div class="products">
+    <a href="{% url 'user-orders' %}" class="view_order">Back to Orders Page</a>
+    <br>
+    <h3>Customer Details</h3>
+    <p><strong>Name: </strong>{{ customer.first_name }} {{ customer.last_name }}</p>
+    <p><strong>Shipping
+        Address: </strong>{{ customer_address.ship_address_line }}, {{ customer_address.ship_city }}, {{ customer_address.ship_region }} {{ customer_address.ship_zip_code }}
+    </p>
+    <p><strong>Billing
+        Address: </strong>{{ customer_address.bill_address_line }}, {{ customer_address.bill_city }}, {{ customer_address.bill_region }} {{ customer_address.bill_zip_code }}
+    </p>
+    <p><strong>Contact Details: </strong>{{ customer.email_address }} / {{ customer.contact_num }}</p>
+    <br>
+    <h3>Orders</h3>
+    <table>
+        <tr>
+            <th>Variant Name</th>
+            <th>Quantity</th>
+            <th>Price (Php)</th>
+        </tr>
+        {% for order in op %}
+            <tr>
+                <td>{{ order.variant_name.variant_name }}</td>
+                <td>{{ order.line_item_qty }}</td>
+                <td>{{ order.line_item_price|mul:order.line_item_qty }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <h3>Sales Order Summary</h3>
+    <p><strong>Transaction Number: </strong>{{ so.so_trans_no }}</p>
+    <p><strong>Issued Date: </strong>{{ so.issued_date }}</p>
+    <p><strong>Total Quantity: </strong>{{ so.total_qty }}</p>
+    <p><strong>Total Products Price: </strong>{{ so.total_price|floatformat:2 }}</p>
+    <p><strong>Total Discount: </strong>{{ so.total_discount|floatformat:2 }}</p>
+    <p><strong>Total Tax Amount: </strong>{{ so.total_tax_amount|floatformat:2 }}</p>
+    <p><strong>Total Order Amount: </strong>{{ so.total_order_amount|floatformat:2 }}</p>
+    <br>
+    {% if payment_status == "Unpaid" %}
+        <h4><a href="{% url 'user-payment' so.so_trans_no %}" class="view_order">Pay Now!</a></h4>
+    {% else %}
+        <h4>Payment Status: {{ payment_status }}</h4>
+    {% endif %}
+    <h4>Shipment Status: {{ shipment_status }}</h4>
+    {% if shipment_status == "Shipped" %}
+        <p><strong>Courier: </strong> {{ shipment.shipment_courier }}</p>
+        <p><strong>Tracking Number: </strong> {{ shipment.shipment_id_url }}</p>
+    {% endif %}
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="footer">
+    <h3>Powered by BrightWin</h3>
+</div>
+</body>
+</html>

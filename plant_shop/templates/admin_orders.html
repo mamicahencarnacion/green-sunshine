@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Green Sunshine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+        }
+
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0 !important;
+            width: 60%;
+            min-height: 100%;
+            background-color: #fbfcfd;
+            padding: 0;
+            box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            font-size: small;
+        }
+
+        li {
+            float: right;
+            font-size: small;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav li a, a:visited {
+            color: black;
+        }
+
+        .nav li a:hover {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: small;
+        }
+
+        .shop-title {
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 2% !important;
+            color: #145a32;
+            letter-spacing: 40px;
+        }
+
+        .shop-title a, a:visited, a:hover {
+            color: #239b56 !important;
+            text-decoration: none;
+            font-size: x-large;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 60%;
+            background-color: forestgreen;
+            color: white;
+            text-align: center;
+            font-size: x-small;
+        }
+
+        .logout a {
+            color: crimson !important;
+        }
+
+        .products table {
+            width: 100%;
+            text-align: center;
+        }
+
+        .view_order, .view_order:hover, .view_order:visited {
+            color: #239b56;
+            font-size: medium;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="nav">
+    <ul>
+        <li class="logout"><a href="/logout">Logout</a></li>
+        <li><a href="/">Hello, {{ profile.first_name }}!</a></li>
+    </ul>
+</div>
+
+<br>
+
+<div class="shop-title">
+    <a href="/"><h1>GREENSUNSHINE</h1></a>
+</div>
+
+<br>
+
+<div class="products">
+    <a href="/" class="view_order">Back to Menu</a>
+    <table>
+        <tr>
+            <th>Transaction No.</th>
+            <th>Issued Date</th>
+            <th>Total Order Amount (Php)</th>
+            <th>Total Quantity</th>
+        </tr>
+        {% for sales_order in sales_orders %}
+            <tr>
+                <td>
+                    <a href={% url 'admin-order' sales_order.so_trans_no %} class="view_order">{{ sales_order.so_trans_no }}</a>
+                </td>
+                <td>{{ sales_order.issued_date }}</td>
+                <td>{{ sales_order.total_order_amount|floatformat:2 }}</td>
+                <td>{{ sales_order.total_qty }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="footer">
+    <h3>Powered by BrightWin</h3>
+</div>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Green Sunshine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+        }
+
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0 !important;
+            width: 60%;
+            min-height: 100%;
+            background-color: #fbfcfd;
+            padding: 0;
+            box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            font-size: small;
+        }
+
+        li {
+            float: right;
+            font-size: small;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav li a, a:visited {
+            color: black;
+        }
+
+        .nav li a:hover {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: small;
+        }
+
+        .shop-title {
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 2% !important;
+            color: #145a32;
+            letter-spacing: 40px;
+        }
+
+        .shop-title a, a:visited, a:hover {
+            color: #239b56;
+            text-decoration: none;
+            font-size: x-large;
+        }
+
+        .billing-form-request {
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            box-shadow: 2px 2px 0 0 lightgray;
+            padding: 30px;
+            width: 50%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        input {
+            border: none;
+            border-bottom: 1px solid #145a32;
+        }
+
+        ::placeholder {
+            text-align: center;
+        }
+
+        input:focus {
+            border: none;
+            border-bottom: 1px solid #239b56;
+        }
+
+        input:invalid {
+            box-shadow: none;
+        }
+
+        #update-billing {
+            border: none;
+            box-shadow: none;
+            border-radius: 3px;
+            background: transparent;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-left: 110px;
+            padding-right: 110px;
+            font-weight: bold;
+        }
+
+        #update-billing:hover {
+            background: palegreen;
+            color: white;
+            font-weight: bolder;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 60%;
+            background-color: forestgreen;
+            color: white;
+            text-align: center;
+            font-size: x-small;
+        }
+
+        input:not([type="submit"]) {
+            width: 410px;
+            display: inline-block;
+        }
+
+        label {
+            font-size: small;
+            float: left;
+        }
+
+        .login-before-order {
+            border: none;
+            box-shadow: none;
+            border-radius: 5px;
+            background: crimson;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-left: 110px;
+            padding-right: 110px;
+            text-align: center;
+            color: white;
+        }
+
+        .login-before-order-div {
+            text-align: center;
+            padding: 30px;
+            width: 50%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .login-message {
+            font-style: italic;
+            font-size: x-small;
+            padding-top: 0;
+        }
+
+        select {
+            display: inline-block;
+            margin-right: 30px;
+        }
+
+        .quantity {
+            width: 100px !important;
+            margin-right: 30px;
+        }
+
+        .add-product, .add-product:hover, .add-product:visited {
+            font-size: x-small;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="nav">
+    {% if username %}
+        <ul>
+            <li class="logout"><a href="/logout">Logout</a></li>
+            <li><a href="{% url 'user-orders' %}">Orders</a></li>
+            <li><a href="/profile">Hello, {{ username }}!</a></li>
+        </ul>
+    {% else %}
+        <ul>
+            <li><a href="/login">Login/Register</a></li>
+        </ul>
+    {% endif %}
+</div>
+
+<br>
+
+<div class="shop-title">
+    <a href="/"><h1>GREENSUNSHINE</h1></a>
+</div>
+
+<div class="billing-form">
+    {% if not username %}
+        <div class="login-before-order-div">
+            <form autocomplete="off" action="{% url "login" %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="login-before-order" value="Login Before Ordering">
+            </form>
+            <p class="login-message">* Save shipping and billing address </p>
+        </div>
+    {% endif %}
+    {% if username %}
+        <div class="billing-form-request">
+            <form autocomplete="off" action="{% url "save_order" customer.customer_id %}" method="post">
+                {% csrf_token %}
+                <label><h3>Order Form</h3></label><br><br>
+                <h5>Customer Details</h5>
+                <p><strong>Name: </strong>{{ customer.first_name }} {{ customer.last_name }}</p>
+                <p><strong>Email Address: </strong>{{ customer.email_address }}</p>
+                <p><strong>Contact Number: </strong>{{ customer.contact_num }}</p>
+                <h5>Shipping Details</h5>
+                <p><strong>Address Line: </strong>{{ customer_address.ship_address_line }}</p>
+                <p><strong>City: </strong>{{ customer_address.ship_city }}</p>
+                <p><strong>Region: </strong>{{ customer_address.ship_region }}</p>
+                <p><strong>Country: </strong>{{ customer_address.ship_country }}</p>
+                <p><strong>Zip Code: </strong>{{ customer_address.ship_zip_code }}</p>
+                <h5>Billing Details</h5>
+                <p><strong>Address Line: </strong>{{ customer_address.bill_address_line }}</p>
+                <p><strong>City: </strong>{{ customer_address.bill_city }}</p>
+                <p><strong>Region: </strong>{{ customer_address.bill_region }}</p>
+                <p><strong>Country: </strong>{{ customer_address.bill_country }}</p>
+                <p><strong>Zip Code: </strong>{{ customer_address.bill_zip_code }}</p>
+                <h5>Order Details</h5>
+                <div id="one-product-0">
+                    <select name="order-product-0">
+                        {% for product in products %}
+                            <option value="{{ product.variant_sku }}">{{ product.variant_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" class="quantity" name="qty-0" placeholder="quantity">
+                </div>
+                <div id="one-product-1">
+                    <select name="order-product-1">
+                        {% for product in products %}
+                            <option value="{{ product.variant_sku }}">{{ product.variant_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" class="quantity" name="qty-1" placeholder="quantity">
+                </div>
+                <div id="one-product-2">
+                    <select name="order-product-2">
+                        {% for product in products %}
+                            <option value="{{ product.variant_sku }}">{{ product.variant_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" class="quantity" name="qty-2" placeholder="quantity">
+                </div>
+                <div id="one-product-3">
+                    <select name="order-product-3">
+                        {% for product in products %}
+                            <option value="{{ product.variant_sku }}">{{ product.variant_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" class="quantity" name="qty-3" placeholder="quantity">
+                </div>
+                <div id="one-product-4">
+                    <select name="order-product-4">
+                        {% for product in products %}
+                            <option value="{{ product.variant_sku }}">{{ product.variant_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" class="quantity" name="qty-4" placeholder="quantity">
+                </div>
+                <br><br>
+                <input type="submit" id="update-billing" value="ORDER">
+            </form>
+        </div>
+    {% endif %}
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="footer">
+    <h3>Powered by BrightWin</h3>
+</div>
+</body>
+</html>

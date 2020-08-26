@@ -619,8 +619,8 @@ def save_order(request, cust_id):
             op.save()
 
         automated_email_user = requests.post(
-            "https://api.mailgun.net/v3/sandbox3348ea43eff3430fb8d285bf1bc299a4.mailgun.org/messages",
-            auth=("api", "746e648aba12d0d558b4fef4696cb507-4d640632-fbb183ee"),
+            "https://api.mailgun.net/",
+            auth=("api", ""),
             data={
                 "from": "Green Sunshine <ggreenssunshine@gmail.com>",
                 "to": f"{customer.first_name} {customer.last_name} <{customer.email_address}>",
@@ -643,8 +643,8 @@ def save_order(request, cust_id):
             orders_txt += f"\tProduct: {op.variant_name.variant_name}\t\tQty: {op.line_item_qty}\n"
 
         automated_email_admin = requests.post(
-            "https://api.mailgun.net/v3/sandbox3348ea43eff3430fb8d285bf1bc299a4.mailgun.org/messages",
-            auth=("api", "746e648aba12d0d558b4fef4696cb507-4d640632-fbb183ee"),
+            "https://api.mailgun.net/",
+            auth=("api", ""),
             data={
                 "from": "Green Sunshine <ggreenssunshine@gmail.com>",
                 "to": f"Green Sunshine <ggreenssunshine@gmail.com>",
@@ -889,11 +889,8 @@ def user_paid(request, so_trans_no):
             shipment.save()
 
             requests.post(
-                "https://api.mailgun.net/v3/sandbox3348ea43eff3430fb8d285bf1bc299a4.mailgun.org/messages",
-                auth=(
-                    "api",
-                    "746e648aba12d0d558b4fef4696cb507-4d640632-fbb183ee",
-                ),
+                "https://api.mailgun.net/",
+                auth=("api", ""),
                 data={
                     "from": "Green Sunshine <ggreenssunshine@gmail.com>",
                     "to": f"Green Sunshine <ggreenssunshine@gmail.com>",
@@ -958,11 +955,8 @@ def update_shipment_details(request, so_trans_no):
             shipment.save()
 
             requests.post(
-                "https://api.mailgun.net/v3/sandbox3348ea43eff3430fb8d285bf1bc299a4.mailgun.org/messages",
-                auth=(
-                    "api",
-                    "746e648aba12d0d558b4fef4696cb507-4d640632-fbb183ee",
-                ),
+                "https://api.mailgun.net/",
+                auth=("api", ""),
                 data={
                     "from": "Green Sunshine <ggreenssunshine@gmail.com>",
                     "to": f"{customer.first_name} {customer.last_name} <{customer.email_address}>",
@@ -984,8 +978,8 @@ def update_shipment_details(request, so_trans_no):
 
 def send_simple_message():
     return requests.post(
-        "https://api.mailgun.net/v3/sandbox3348ea43eff3430fb8d285bf1bc299a4.mailgun.org/messages",
-        auth=("api", "746e648aba12d0d558b4fef4696cb507-4d640632-fbb183ee"),
+        "https://api.mailgun.net/",
+        auth=("api", ""),
         data={
             "from": "Green Sunshine <ggreenssunshine@gmail.com>",
             "to": "Ma. Micah Encarnacion <emr2373@dlsud.edu.ph>",
